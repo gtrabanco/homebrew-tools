@@ -48,7 +48,7 @@ jobs:
 
       - name: Install .Sloth
         run: |
-          brew install gtrabanco/tools/.sloth
+          brew install --include-test --formula .sloth.rb
       
       - name: Check dot installed version
         run: |
