@@ -8,11 +8,11 @@ class Sloth < Formula
   depends_on "git" => :recommended
   depends_on "python-yq" => :recommended
 
-  version "3.0.5"
+  version "3.0.6"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://github.com/gtrabanco/.Sloth/archive/refs/tags/#{version}.tar.gz"
-  sha256 "1499175e3c988a3e4e9ce058a699ea9758d64d52b21a8cb06103c77941ab8086"
+  sha256 "af64e76804fda5b41da6e6d431f2b42fc88b84e616f985781121c0c26b66f2f7"
   license "MIT"
 
   def install
