@@ -1,6 +1,7 @@
 class Sloth < Formula
   depends_on "curl"
   depends_on "rust"
+  depends_on "git"
   depends_on "git-delta"
   depends_on "rust"
   depends_on "coreutils"
@@ -16,32 +17,43 @@ class Sloth < Formula
   depends_on "bash-completion@2" => :recommended
   depends_on "zsh" => :recommended
   depends_on "zsh-completions" => :recommended
-  depends_on "git" => :recommended
   depends_on "python3" => :recommended
   depends_on "python-yq" => :recommended
   depends_on "mas" => :recommended
   depends_on "gnutls" => :optional
 
-  version "3.0.7"
+  version "3.0.8"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "1a077f486ddb77847e6ab4a39174bf32427423fa41a74400cb972f9a5500b741"
+  sha256 "52c42823f0753ba947181c8b0ca83744875f3fe22d043051ace794467d4a8bae"
+  head "https://github.com/gtrabanco/.Sloth.git", branch: "master", :using => :git
   license "MIT"
 
-  def install
-    ohai "Linking dot"
-    bin.install "dot"
-    ohai "Initilisation of .Sloth as repository"
-    system("bin/dot", "core install --only-initilize-sloth")
-    ohai "Create your DOTFILES_PATH with the command:"
-    ohai " $ DOTFILES_PATH=\"${HOME}/.dotfiles\" dot dotfiles create"
-    ohai "Use .Sloth loader by using the command:"
-    ohai " $ dot dotfiles loader --modify"
-    ohai "Restart your terminal to have .Sloth running"
+  option "dotfiles-path", "Provide where to place your dotfiles"
 
-    #ohai "Adding .Sloth to your \`.bashrc\` and \`.zshrc\` files"
-    #system("bin/dot", "core loader --modify")
+  def install
+    ENV["SLOTH_PATH"] = "#{prefix}"
+    bin.install "bin/dot"
+    prefix.install "bin"
+    prefix.install "_raycast"
+    prefix.install "dotfiles_template"
+    prefix.install "migration"
+    prefix.install "modules"
+    prefix.install "scripts"
+    prefix.install "shell"
+    prefix.install "symlinks"
+    prefix.install ".gitmodules"
+
+    if build.with? "dotfiles-path"
+      ohai "Installing .Sloth"
+      system "make", "install"
+    end
+    
+    if build.without? "dotfiles-path"
+      ohai "Initilising .Sloth as repository"
+      system "make init"
+    end
   end
 
   test do
