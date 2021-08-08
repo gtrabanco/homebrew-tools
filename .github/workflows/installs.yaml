@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - '*.md'
+      - '**/*.md'
+
+jobs:
+  build:
+    name: 🦥 Brew .Sloth installation
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set current repository for pull requests
+        run: |
+          echo "PR_REPOSITORY=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_ENV
+
+      - name: Set current env
+        run: echo "ENV=CI" >> $GITHUB_ENV
+
+      - name: Install brew linux
+        if: matrix.os == "ubuntu-latest"
+        run: sudo apt-get install build-essential procps curl file git
+
+      - name: Install brew
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+      - name: Finish installation on Linux
+        if: matrix.os == "ubuntu-latest"
+        run: |
+          test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+          test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+          test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+          echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+
+      - name: Install .Sloth
+        run: |
+          brew install gtrabanco/tools/.sloth
+      
+      - name: Check dot installed version
+        run: |
+          dot -v
+      
+      - name: Check if .Sloth is a repository
+        run: |
+          cd "$(brew --prefix .sloth)"
+          git rev-parse --is-inside-work-tree &> /dev/null && echo ".Sloth initilised as repository"
+
