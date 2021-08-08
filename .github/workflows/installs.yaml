@@ -33,30 +33,29 @@ jobs:
         run: echo "ENV=CI" >> $GITHUB_ENV
 
       - name: Install brew linux
-        if: matrix.os == "ubuntu-latest"
+        if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install build-essential procps curl file git
 
       - name: Install brew
         run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
       - name: Finish installation on Linux
-        if: matrix.os == "ubuntu-latest"
+        if: matrix.os == 'ubuntu-latest'
         run: |
-          test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-          test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-          test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
-          echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+          test -x ~/.linuxbrew/bin/brew && eval $(~/.linuxbrew/bin/brew shellenv)
+          test -x /home/linuxbrew/.linuxbrew/bin/brew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+          command -v brew &> /dev/null && eval "$(brew --prefix)/bin/brew shellenv"
 
       - name: Install .Sloth
         run: |
-          brew install gtrabanco/tools/.sloth
-      
-      - name: Check dot installed version
-        run: |
-          dot -v
+          brew install --include-test --formula .sloth.rb
       
       - name: Check if .Sloth is a repository
         run: |
           cd "$(brew --prefix .sloth)"
           git rev-parse --is-inside-work-tree &> /dev/null && echo ".Sloth initilised as repository"
 
+      - name: Check dot installed version
+        run: |
+          echo "dot is in path: $(command -v dot)"
+          dot -v
