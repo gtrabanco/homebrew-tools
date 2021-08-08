@@ -1,4 +1,4 @@
-class Sloth < Formula
+class Dot < Formula
   depends_on "curl"
   depends_on "rust"
   depends_on "git"
