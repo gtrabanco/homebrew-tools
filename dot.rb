@@ -19,8 +19,11 @@ class Dot < Formula
   depends_on "zsh-completions" => :recommended
   depends_on "python3" => :recommended
   depends_on "python-yq" => :recommended
-  depends_on "mas" => :recommended
   depends_on "gnutls" => :optional
+
+  on_macos do
+    depends_on "mas" => :recommended
+  end
 
   version "3.0.8"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
