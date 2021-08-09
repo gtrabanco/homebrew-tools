@@ -47,15 +47,20 @@ class Dot < Formula
     prefix.install "shell"
     prefix.install "symlinks"
     prefix.install ".gitmodules"
+    prefix.install "Makefile"
 
     if build.with? "dotfiles-path"
       ohai "Installing .Sloth"
-      system "make", "install"
+      cd "#{prefix}" on
+        system "make", "install"
+      end
     end
     
     if build.without? "dotfiles-path"
       ohai "Initilising .Sloth as repository"
-      system "make init"
+      cd "#{prefix}" on
+        system "make", "install"
+      end
     end
   end
 
