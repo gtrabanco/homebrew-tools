@@ -48,11 +48,11 @@ jobs:
 
       - name: Install .Sloth
         run: |
-          brew install --include-test --formula .sloth.rb
+          brew install --include-test --formula Formula/dot.rb
       
       - name: Check if .Sloth is a repository
         run: |
-          cd "$(brew --prefix .sloth)"
+          cd "$(brew --prefix dot)"
           git rev-parse --is-inside-work-tree &> /dev/null && echo ".Sloth initilised as repository"
 
       - name: Check dot installed version
