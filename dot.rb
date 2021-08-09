@@ -1,4 +1,14 @@
 class Dot < Formula
+  version "3.0.8"
+  desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
+  homepage "https://github.com/gtrabanco/.Sloth"
+  url "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
+  sha256 "84dba640ab4501bfe35d8ae82ed61499c0a238b5ca3f86213ac33866761d575c"
+  head "https://github.com/gtrabanco/.Sloth.git", branch: "master", :using => :git
+  license "MIT"
+
+  option "dotfiles-path", "Provide where to place your dotfiles"
+  
   depends_on "curl"
   depends_on "rust"
   depends_on "git"
@@ -24,16 +34,6 @@ class Dot < Formula
   on_macos do
     depends_on "mas" => :recommended
   end
-
-  version "3.0.8"
-  desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
-  homepage "https://github.com/gtrabanco/.Sloth"
-  url "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "52c42823f0753ba947181c8b0ca83744875f3fe22d043051ace794467d4a8bae"
-  head "https://github.com/gtrabanco/.Sloth.git", branch: "master", :using => :git
-  license "MIT"
-
-  option "dotfiles-path", "Provide where to place your dotfiles"
 
   def install
     ENV["SLOTH_PATH"] = "#{prefix}"
