@@ -59,7 +59,7 @@ class Dot < Formula
     if build.without? "dotfiles-path"
       ohai "Initilising .Sloth as repository"
       cd "#{prefix}" on
-        system "make", "install"
+        system "make", "init"
       end
     end
   end

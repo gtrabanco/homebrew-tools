@@ -58,7 +58,7 @@ class Sloth < Formula
     if build.without? "dotfiles-path"
       ohai "Initilising .Sloth as repository"
 
-      system "make", "install"
+      system "make", "init"
     end
   end
 
