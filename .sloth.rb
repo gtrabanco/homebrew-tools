@@ -53,11 +53,6 @@ class Sloth < Formula
       ohai "Installing .Sloth"
       system "make", "install"
     end
-    
-    if build.without? "dotfiles-path"
-      ohai "Initilising .Sloth as repository"
-      system "make", "init"
-    end
   end
 
   def caveats
