@@ -51,16 +51,12 @@ class Sloth < Formula
 
     if build.with? "dotfiles-path"
       ohai "Installing .Sloth"
-      cd "#{prefix}" on
-        system "make", "install"
-      end
+      system "make", "install"
     end
     
     if build.without? "dotfiles-path"
       ohai "Initilising .Sloth as repository"
-      cd "#{prefix}" on
-        system "make", "init"
-      end
+      system "make", "init"
     end
   end
 
