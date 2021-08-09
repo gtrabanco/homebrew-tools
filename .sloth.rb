@@ -59,6 +59,18 @@ class Sloth < Formula
     end
   end
 
+  def caveats
+    <<~EOS
+      To activate .Sloth in your zsh and bash shell, run:
+        dot core loader --modify
+      If you want to use .Sloth only in zsh or bash, see the help for know how:
+        dot core loader --help
+
+      Additionally, if you haven't done yet, you can create your custom dotfiles with:
+        DOTFILES_PATH="/path/to/your/desired/dir" dot dotfiles create
+    EOS
+  end
+
   test do
     assert_match "dot " + version, shell_output("#{bin}/dot --version")
   end
