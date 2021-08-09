@@ -1,4 +1,14 @@
 class Dot < Formula
+  version "3.0.8"
+  desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
+  homepage "https://github.com/gtrabanco/.Sloth"
+  url "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
+  sha256 "84dba640ab4501bfe35d8ae82ed61499c0a238b5ca3f86213ac33866761d575c"
+  head "https://github.com/gtrabanco/.Sloth.git", branch: "master", :using => :git
+  license "MIT"
+
+  option "dotfiles-path", "Provide where to place your dotfiles"
+  
   depends_on "curl"
   depends_on "rust"
   depends_on "git"
@@ -25,16 +35,6 @@ class Dot < Formula
     depends_on "mas" => :recommended
   end
 
-  version "3.0.8"
-  desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
-  homepage "https://github.com/gtrabanco/.Sloth"
-  url "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "52c42823f0753ba947181c8b0ca83744875f3fe22d043051ace794467d4a8bae"
-  head "https://github.com/gtrabanco/.Sloth.git", branch: "master", :using => :git
-  license "MIT"
-
-  option "dotfiles-path", "Provide where to place your dotfiles"
-
   def install
     ENV["SLOTH_PATH"] = "#{prefix}"
     bin.install "bin/dot"
@@ -47,16 +47,33 @@ class Dot < Formula
     prefix.install "shell"
     prefix.install "symlinks"
     prefix.install ".gitmodules"
+    prefix.install "Makefile"
 
     if build.with? "dotfiles-path"
       ohai "Installing .Sloth"
-      system "make", "install"
+      cd "#{prefix}" on
+        system "make", "install"
+      end
     end
     
     if build.without? "dotfiles-path"
       ohai "Initilising .Sloth as repository"
-      system "make init"
+      cd "#{prefix}" on
+        system "make", "init"
+      end
     end
+  end
+
+  def caveats
+    <<~EOS
+      To activate .Sloth in your zsh and bash shell, run:
+        dot core loader --modify
+      If you want to use .Sloth only in zsh or bash, see the help for know how:
+        dot core loader --help
+
+      Additionally, if you haven't done yet, you can create your custom dotfiles with:
+        DOTFILES_PATH="/path/to/your/desired/dir" dot dotfiles create
+    EOS
   end
 
   test do
