@@ -49,7 +49,20 @@ class Dot < Formula
     prefix.install ".gitmodules"
     prefix.install "Makefile"
 
+    system "git", "init"
+    system "git", "remote", "add", "origin", "https://github.com/gtrabanco/.Sloth"
+    system "git", "config", "remote.origin.url", "https://github.com/gtrabanco/.Sloth"
+    system "git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"
+    system "git", "fetch", "--all", "--tags", "--force"
+    system "git", "remote", "set-head", "origin", "--auto"
+    system "git", "clean", "-f", "-d"
+    system "git", "pull", "--tags", "-s" "recursive", "-X", "theirs", "origin", "master"
+    system "git", "reset", "--hard", "HEAD"
+    system "git", "branch", "--set-upstream-to=origin/master", "master"
+    system "git", "checkout", "--force", "v#{version}"
+
     if build.with? "dotfiles-path"
+      ENV["DOTFILES_PATH"] = build.dotfiles_path
       ohai "Installing .Sloth"
       system "make", "install"
     end
