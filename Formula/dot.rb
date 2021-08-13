@@ -8,6 +8,7 @@ class Dot < Formula
   license "MIT"
 
   option "dotfiles-path", "Provide where to place your dotfiles"
+  option "no-init-as-repository", "Ignore the initialization of .Sloth installation as git repository"
   
   depends_on "curl"
   depends_on "rust"
@@ -49,17 +50,19 @@ class Dot < Formula
     prefix.install ".gitmodules"
     prefix.install "Makefile"
 
-    system "git", "init"
-    system "git", "remote", "add", "origin", "https://github.com/gtrabanco/.Sloth"
-    system "git", "config", "remote.origin.url", "https://github.com/gtrabanco/.Sloth"
-    system "git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"
-    system "git", "fetch", "--all", "--tags", "--force"
-    system "git", "remote", "set-head", "origin", "--auto"
-    system "git", "clean", "-f", "-d"
-    system "git", "pull", "--tags", "-s" "recursive", "-X", "theirs", "origin", "master"
-    system "git", "reset", "--hard", "HEAD"
-    system "git", "branch", "--set-upstream-to=origin/master", "master"
-    system "git", "checkout", "--force", "v#{version}"
+    if build.without? "no-init-as-repository"
+      system "git", "init"
+      system "git", "remote", "add", "origin", "https://github.com/gtrabanco/.Sloth"
+      system "git", "config", "remote.origin.url", "https://github.com/gtrabanco/.Sloth"
+      system "git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"
+      system "git", "fetch", "--all", "--tags", "--force"
+      system "git", "remote", "set-head", "origin", "--auto"
+      system "git", "clean", "-f", "-d"
+      system "git", "pull", "--tags", "-s" "recursive", "-X", "theirs", "origin", "master"
+      system "git", "reset", "--hard", "HEAD"
+      system "git", "branch", "--set-upstream-to=origin/master", "master"
+      system "git", "checkout", "--force", "v#{version}"
+    end
 
     if build.with? "dotfiles-path"
       ENV["DOTFILES_PATH"] = build.dotfiles_path
