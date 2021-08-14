@@ -1,5 +1,5 @@
 class Dot < Formula
-  revision 1
+  revision 2
   version "3.0.9"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
@@ -37,13 +37,15 @@ class Dot < Formula
     depends_on "mas" => :recommended
   end
 
+  patch :p0, :DATA
+
   def install
     ENV["SLOTH_PATH"] = "#{prefix}"
     bin.install "bin/dot"
-    bin.install "bin/$"
-    bin.install "bin/pbcopy"
-    bin.install "bin/pbpaste"
-    bin.install "bin/open"
+    prefix.install "bin/$" => "bin/$"
+    prefix.install "bin/open" => "bin/open"
+    prefix.install "bin/pbcopy" => "bin/pbcopy"
+    prefix.install "bin/pbpaste" => "bin/pbpaste"
     prefix.install "_raycast"
     prefix.install "dotfiles_template"
     prefix.install "migration"
@@ -53,7 +55,7 @@ class Dot < Formula
     prefix.install "scripts/self"
     prefix.install "shell"
     prefix.install "symlinks"
-    bash_completion/"dot" "shell/bash/completions/"
+    #bash_completion/"dot" "shell/bash/completions/_dot"
 
     if build.with? "dotfiles-path"
       ENV["DOTFILES_PATH"] = build.dotfiles_path
