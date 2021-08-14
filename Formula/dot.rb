@@ -1,10 +1,12 @@
 class Dot < Formula
+  revision 1
   version "3.0.9"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
-  url "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
+  url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
+  # mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
   sha256 "bfb0478e8224c144a3d2696bb23b158f042bdbab7648990e559a1bdde92d1266"
-  head "https://github.com/gtrabanco/.Sloth.git", branch: "master", :using => :git
+  head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
 
   option "dotfiles-path", "Provide where to place your dotfiles"
@@ -38,28 +40,20 @@ class Dot < Formula
   def install
     ENV["SLOTH_PATH"] = "#{prefix}"
     bin.install "bin/dot"
-    prefix.install "bin"
+    bin.install "bin/$"
+    bin.install "bin/pbcopy"
+    bin.install "bin/pbpaste"
+    bin.install "bin/open"
     prefix.install "_raycast"
     prefix.install "dotfiles_template"
     prefix.install "migration"
     prefix.install "modules"
-    prefix.install "scripts"
+    prefix.install "scripts/core/src"
+    prefix.install "scripts/core/_main.sh"
+    prefix.install "scripts/self"
     prefix.install "shell"
     prefix.install "symlinks"
-    prefix.install ".gitmodules"
-    prefix.install "Makefile"
-
-    system "git", "init"
-    system "git", "remote", "add", "origin", "https://github.com/gtrabanco/.Sloth"
-    system "git", "config", "remote.origin.url", "https://github.com/gtrabanco/.Sloth"
-    system "git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*"
-    system "git", "fetch", "--all", "--tags", "--force"
-    system "git", "remote", "set-head", "origin", "--auto"
-    system "git", "clean", "-f", "-d"
-    system "git", "pull", "--tags", "-s" "recursive", "-X", "theirs", "origin", "master"
-    system "git", "reset", "--hard", "HEAD"
-    system "git", "branch", "--set-upstream-to=origin/master", "master"
-    system "git", "checkout", "--force", "v#{version}"
+    bash_completion/"dot" "shell/bash/completions/"
 
     if build.with? "dotfiles-path"
       ENV["DOTFILES_PATH"] = build.dotfiles_path
@@ -84,3 +78,15 @@ class Dot < Formula
     assert_match "dot " + version, shell_output("#{bin}/dot --version")
   end
 end
+__END__
+--- a/bin/dot
++++ b/bin/dot
+@@ -3,6 +3,8 @@
+
+ set -euo pipefail
+
++SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++
+ # In Linux we can do this with readlink -f but will fail in macOS and BSD OS
+ if [[ -z "${SLOTH_PATH:-${DOTLY_PATH:-}}" || ! -d "${SLOTH_PATH:-${DOTLY_PATH:-}}" ]]; then
+   dot_path="$BASH_SOURCE"
