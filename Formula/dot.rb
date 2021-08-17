@@ -1,10 +1,9 @@
 class Dot < Formula
-  revision 2
-  version "3.0.9"
+  version "3.0.10"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
-  # mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
+  mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
   sha256 "bfb0478e8224c144a3d2696bb23b158f042bdbab7648990e559a1bdde92d1266"
   head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
@@ -30,37 +29,50 @@ class Dot < Formula
   depends_on "zsh" => :recommended
   depends_on "zsh-completions" => :recommended
   depends_on "python3" => :recommended
+  depends_on "brew-pip" => :recommended
   depends_on "python-yq" => :recommended
   depends_on "gnutls" => :optional
+
+  on_linux do
+    depends_on xclip => :recommended
+  end
 
   on_macos do
     depends_on "mas" => :recommended
   end
 
-  patch :p0, :DATA
-
   def install
     ENV["SLOTH_PATH"] = "#{prefix}"
     bin.install "bin/dot"
-    prefix.install "bin/$" => "bin/$"
-    prefix.install "bin/open" => "bin/open"
-    prefix.install "bin/pbcopy" => "bin/pbcopy"
-    prefix.install "bin/pbpaste" => "bin/pbpaste"
+    bin.install "bin/$"
     prefix.install "_raycast"
     prefix.install "dotfiles_template"
     prefix.install "migration"
     prefix.install "modules"
-    prefix.install "scripts/core/src"
-    prefix.install "scripts/core/_main.sh"
-    prefix.install "scripts/self"
+    prefix.install "scripts"
     prefix.install "shell"
     prefix.install "symlinks"
+
+    on_linux do
+      bin.install "bin/pbcopy"
+      bin.install "bin/pbpaste"
+      bin.install "bin/open"
+    end
+
+    prefix.install Dir["*!bin"]
+
+    cd prefix do
+      #rm_rf "bin/bin"
+      rm_rf "scripts/core/version"
+      ln_sf "scripts/core", "scripts/self"
+    end
+
     #bash_completion/"dot" "shell/bash/completions/_dot"
 
     if build.with? "dotfiles-path"
       ENV["DOTFILES_PATH"] = build.dotfiles_path
       ohai "Installing .Sloth"
-      system "make", "install"
+      system "dot", "core", "install"
     end
   end
 
@@ -76,19 +88,23 @@ class Dot < Formula
     EOS
   end
 
+  patch :DATA
+
   test do
     assert_match "dot " + version, shell_output("#{bin}/dot --version")
   end
 end
 __END__
+diff --git a/bin/dot b/bin/dot
+index 31a1c02..1abc212 100755
 --- a/bin/dot
 +++ b/bin/dot
 @@ -3,6 +3,8 @@
-
+ 
  set -euo pipefail
-
-+SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ 
++SLOTH_PATH="HOMEBREW_PREFIX/Cellar/dot"
 +
  # In Linux we can do this with readlink -f but will fail in macOS and BSD OS
  if [[ -z "${SLOTH_PATH:-${DOTLY_PATH:-}}" || ! -d "${SLOTH_PATH:-${DOTLY_PATH:-}}" ]]; then
-   dot_path="$BASH_SOURCE"
+   if ! command -vp realpath &> /dev/null; then
