@@ -102,7 +102,7 @@ index 31a1c02..1abc212 100755
  
  set -euo pipefail
  
-+SLOTH_PATH="HOMEBREW_PREFIX/Cellar/dot"
++export SLOTH_PATH="HOMEBREW_PREFIX/Cellar/dot"
 +
  # In Linux we can do this with readlink -f but will fail in macOS and BSD OS
  if [[ -z "${SLOTH_PATH:-${DOTLY_PATH:-}}" || ! -d "${SLOTH_PATH:-${DOTLY_PATH:-}}" ]]; then
