@@ -78,15 +78,12 @@ class Dot < Formula
 
   def caveats
     <<~EOS
-      To activate .Sloth in your zsh and bash shell, run:
+      Additionally, if you haven't done yet, you can create your custom dotfiles with:
+        DOTFILES_PATH="${HOME}/.dotfiles" dot dotfiles create
+      After that activate .Sloth loader for your zsh & bash shell with:
         dot core loader --modify
       If you want to use .Sloth only in zsh or bash, see the help to know how to do it:
         dot core loader --help
-
-      Additionally, if you haven't done yet, you can create your custom dotfiles with:
-        DOTFILES_PATH="${HOME}/.dotfiles" dot dotfiles create
-      After that activate .Sloth loader with:
-        dot core loader --modify
     EOS
   end
 
