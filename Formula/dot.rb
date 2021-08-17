@@ -1,10 +1,10 @@
 class Dot < Formula
-  version "3.0.10"
+  version "3.0.12"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
   mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "bfb0478e8224c144a3d2696bb23b158f042bdbab7648990e559a1bdde92d1266"
+  sha256 "b755858766d1aab19708f79160d4c035b4e83880dcd7dfc49aa0160c3efac81d"
   head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
 
@@ -78,13 +78,12 @@ class Dot < Formula
 
   def caveats
     <<~EOS
-      To activate .Sloth in your zsh and bash shell, run:
-        dot core loader --modify
-      If you want to use .Sloth only in zsh or bash, see the help for know how:
-        dot core loader --help
-
       Additionally, if you haven't done yet, you can create your custom dotfiles with:
-        DOTFILES_PATH="/path/to/your/desired/dir" dot dotfiles create
+        DOTFILES_PATH="${HOME}/.dotfiles" dot dotfiles create
+      After that activate .Sloth loader for your zsh & bash shell with:
+        dot core loader --modify
+      If you want to use .Sloth only in zsh or bash, see the help to know how to do it:
+        dot core loader --help
     EOS
   end
 
