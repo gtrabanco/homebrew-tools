@@ -1,10 +1,10 @@
 class Dot < Formula
-  version "3.0.12"
+  version "3.1.0"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
   mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "b755858766d1aab19708f79160d4c035b4e83880dcd7dfc49aa0160c3efac81d"
+  sha256 "55e773b40f13db21dc3ad1d8ae7b34a8169aef4b6f712389927f54da4bbf6b72"
   head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
 
