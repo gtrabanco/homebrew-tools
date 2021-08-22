@@ -32,6 +32,9 @@ jobs:
       - name: Set current env
         run: echo "ENV=CI" >> $GITHUB_ENV
 
+      - name: Set no analytics for homebre
+        run: echo "HOMEBREW_NO_ANALYTICS=true" >> $GITHUB_ENV
+
       - name: Install brew linux
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install build-essential procps curl file git
