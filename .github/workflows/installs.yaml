@@ -53,7 +53,7 @@ jobs:
         run: |
           brew install --include-test --formula Formula/dot.rb
           
-      - name: Check dot installed version
+      - name: Check .Sloth is installed
         run: |
-          echo "dot is in path: $(command -v dot)"
-          dot -v
+          brew list gtrabanco/tools/dot --versions
+
