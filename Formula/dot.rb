@@ -1,10 +1,11 @@
 class Dot < Formula
-  version "3.1.3"
+  revision 0
+  version "3.1.4"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
   mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "7caf089e1196277255dafb0bc3d18c6a8c77e5042d78a5da9d1b8b6dc9b057a1"
+  sha256 "5fb0222202c30a3390543cfa636b902a2925d1fd1c15f3cba2d4eaca1629a213"
   head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
 
@@ -28,7 +29,6 @@ class Dot < Formula
   depends_on "bash-completion@2" => :recommended
   depends_on "zsh" => :recommended
   depends_on "python3" => :recommended
-  depends_on "brew-pip" => :recommended
   depends_on "python-yq" => :recommended
   depends_on "gnutls" => :optional
 
@@ -38,6 +38,7 @@ class Dot < Formula
 
   on_macos do
     depends_on "zsh-completions" => :recommended
+    depends_on "brew-pip" => :recommended
     depends_on "mas" => :recommended
   end
 
