@@ -55,5 +55,5 @@ jobs:
           
       - name: Check .Sloth is installed
         run: |
+          brew tap gtrabanco/tools
           brew list gtrabanco/tools/dot
-
