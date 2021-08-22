@@ -47,6 +47,7 @@ class Dot < Formula
     ENV["INSTALL_PREFIX"] = "#{HOMEBREW_PREFIX}"
     bin.install "bin/dot"
     bin.install "bin/$"
+    bin.install "bin/up"
     prefix.install "_raycast"
     prefix.install "dotfiles_template"
     prefix.install "migration"
@@ -91,25 +92,9 @@ class Dot < Formula
     EOS
   end
 
-  patch :DATA
+  # patch :DATA
 
   test do
     assert_match "dot " + version, shell_output("#{bin}/dot --version")
   end
 end
-__END__
-diff --git a/bin/dot b/bin/dot
-index 31a1c02..1abc212 100755
---- a/bin/dot
-+++ b/bin/dot
-@@ -3,6 +3,8 @@
- 
- set -euo pipefail
- 
-+export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
-+export DOTFILES_PATH="${SLOTH_PATH}/dotfiles_template"
-+export HOMEBREW_SLOTH=true
-+
- # In Linux we can do this with readlink -f but will fail in macOS and BSD OS
- if [[ -z "${SLOTH_PATH:-${DOTLY_PATH:-}}" || ! -d "${SLOTH_PATH:-${DOTLY_PATH:-}}" ]]; then
-   if ! command -vp realpath &> /dev/null; then
