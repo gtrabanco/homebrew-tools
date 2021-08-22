@@ -1,11 +1,11 @@
 class Dot < Formula
-  version "3.1.1"
+  version "3.1.2"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
-  url "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "fix/install_standalone"
   # url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
   # mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  # sha256 "4c01ab8bc0949bf9281338169fba9244f6f9aa59c42d13e7f665e666baccd047"
+  url "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
+  sha256 "4c01ab8bc0949bf9281338169fba9244f6f9aa59c42d13e7f665e666baccd047"
   head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
 
@@ -79,6 +79,11 @@ class Dot < Formula
       ENV["DOTFILES_PATH"] = "#{prefix}/dotfiles_template"
       system "make", "standalone-install"
     end
+
+    patch do
+      url "https://raw.githubusercontent.com/gtrabanco/homebrew-tools/HEAD/formula-patches/dot-v#{version}.diff"
+      sha256 "c79f7b1438aa134f5753c2ddfa1053ae0c6b67232e339c189f51dea146c3f66e"
+    end
   end
 
   def caveats
@@ -91,8 +96,6 @@ class Dot < Formula
         Probably you should uncomment DOTFILES_PATH variable in ~/.bashrc and ~/.zshenv files.
     EOS
   end
-
-  # patch :DATA
 
   test do
     assert_match "dot " + version, shell_output("#{bin}/dot --version")
