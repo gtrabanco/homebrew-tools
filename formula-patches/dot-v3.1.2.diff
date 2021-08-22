@@ -1,71 +1,90 @@
 diff --git a/bin/dot b/bin/dot
-index bf250ec..795062c 100755
+index 04eea8e..b4275f5 100755
 --- a/bin/dot
 +++ b/bin/dot
-@@ -3,6 +3,10 @@
- 
+@@ -4,8 +4,8 @@
  set -euo pipefail
  
-+export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
 +export HOMEBREW_SLOTH=true
-+export DOTFILES_PATH="${DOTFILES_PATH:-${SLOTH_PATH}/dotfiles_template}"
-+
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
  # In Linux we can do this with readlink -f but will fail in macOS and BSD OS
- if [[ -z "${SLOTH_PATH:-${DOTLY_PATH:-}}" || ! -d "${SLOTH_PATH:-${DOTLY_PATH:-}}" ]]; then
-   if ! command -vp realpath &> /dev/null; then
 diff --git a/bin/up b/bin/up
-index a24bc22..2f2fd92 100755
+index 711a9c0..b14de73 100755
 --- a/bin/up
 +++ b/bin/up
-@@ -1,5 +1,9 @@
+@@ -1,8 +1,8 @@
  #!/usr/bin/env bash
  
-+export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
 +export HOMEBREW_SLOTH=true
-+export DOTFILES_PATH="${DOTFILES_PATH:-${SLOTH_PATH}/dotfiles_template}"
-+
- if
-   [[ -z "${SLOTH_PATH:-}" ]] &&
-     command -v brew &> /dev/null &&
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
+ if [[ -z "${SLOTH_PATH:-}" ]]; then
 diff --git a/scripts/core/install b/scripts/core/install
-index 4caa291..3b8b02b 100755
+index 3b5c254..661a257 100755
 --- a/scripts/core/install
 +++ b/scripts/core/install
-@@ -3,6 +3,10 @@
- 
+@@ -4,8 +4,8 @@
  set -euo pipefail
  
-+export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
 +export HOMEBREW_SLOTH=true
-+export DOTFILES_PATH="${DOTFILES_PATH:-${SLOTH_PATH}/dotfiles_template}"
-+
- if
-   [[ -z "${SLOTH_PATH:-}" ]] &&
-     command -v brew &> /dev/null &&
-diff --git a/scripts/symlinks/apply b/scripts/symlinks/apply
-index f5fd807..6ca37f5 100755
---- a/scripts/symlinks/apply
-+++ b/scripts/symlinks/apply
-@@ -2,6 +2,8 @@
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
  
+ if [[ -z "${SLOTH_PATH:-}" ]]; then
+diff --git a/scripts/core/loader b/scripts/core/loader
+index 2d777ee..0f0cf34 100755
+--- a/scripts/core/loader
++++ b/scripts/core/loader
+@@ -4,8 +4,8 @@
  set -euo pipefail
  
-+export DOTFILES_PATH="${DOTFILES_PATH:-${SLOTH_PATH}/dotfiles_template}"
-+
- #shellcheck disable=SC1091
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++export HOMEBREW_SLOTH=true
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
+ [[ -z "${SLOTH_PATH:-${DOTLY_PATH:-}}" ]] && exit 1
+diff --git a/scripts/core/short_pwd b/scripts/core/short_pwd
+index e82d5cc..6e3d0df 100755
+--- a/scripts/core/short_pwd
++++ b/scripts/core/short_pwd
+@@ -3,8 +3,8 @@
+ set -euo pipefail
+ 
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++export HOMEBREW_SLOTH=true
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
  . "${SLOTH_PATH:-${DOTLY_PATH:-}}/scripts/core/src/_main.sh"
- dot::load_library "dotbot.sh"
 diff --git a/shell/init-sloth.sh b/shell/init-sloth.sh
-index d1a5990..1e51e4c 100644
+index c4ca67a..75c03ea 100644
 --- a/shell/init-sloth.sh
 +++ b/shell/init-sloth.sh
-@@ -23,6 +23,9 @@ function recent_dirs() {
-   cd "$(echo "$selected" | sed "s/\~/$escaped_home/")" || echo "Invalid directory"
+@@ -24,8 +24,8 @@ function recent_dirs() {
  }
  
-+export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
 +export HOMEBREW_SLOTH=true
-+
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
  # Advise no vars defines
- if [[ -z "${DOTFILES_PATH:-}" || ! -d "${DOTFILES_PATH:-}" || -z "${SLOTH_PATH:-${DOTLY_PATH:-}}" || ! -d "${SLOTH_PATH:-${DOTLY_PATH:-}}" ]]; then
-   if [[ -d "$HOME/.dotfiles" && -d "${HOME}/.dotfiles/modules/dotly" ]]; then
