@@ -28,6 +28,7 @@ class Dot < Formula
   depends_on "bash" => :recommended
   depends_on "bash-completion@2" => :recommended
   depends_on "zsh" => :recommended
+  depends_on "zsh-completions" => :recommended
   depends_on "python3" => :recommended
   depends_on "python-yq" => :recommended
   depends_on "gnutls" => :optional
@@ -37,8 +38,6 @@ class Dot < Formula
   end
 
   on_macos do
-    depends_on "zsh-completions" => :recommended
-    depends_on "brew-pip" => :recommended
     depends_on "mas" => :recommended
   end
 
