@@ -3,6 +3,7 @@
 ### Install standalone .Sloth
 
 ```bash
+brew tap gtrabanco/tools
 brew install gtrabanco/tools/dot
 ```
 
