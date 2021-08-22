@@ -34,7 +34,7 @@ class Dot < Formula
   depends_on "gnutls" => :optional
 
   on_linux do
-    depends_on xclip => :recommended
+    depends_on "xclip" => :recommended
   end
 
   on_macos do
@@ -76,6 +76,7 @@ class Dot < Formula
       system "make", "install"
     else
       ENV["DOTFILES_PATH"] = "#{prefix}/dotfiles_template"
+      ohai "Installing .Sloth with .Dotfiles"
       system "make", "standalone-install"
     end
 
