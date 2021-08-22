@@ -97,6 +97,8 @@ class Dot < Formula
   end
 
   test do
-    assert_match "dot " + version, shell_output("#{bin}/dot --version")
+    assert_match ".Sloth v" + version, shell_output("#{bin}/dot --version")
+
+    assert_match " > Package named gtrabanco/tools/dot was installed with brew", shell_output("#{bin}/dot package which gtrabanco/tools/dot")
   end
 end
