@@ -1,10 +1,10 @@
 class Dot < Formula
-  version "3.1.1"
+  version "3.1.3"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
   mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "4c01ab8bc0949bf9281338169fba9244f6f9aa59c42d13e7f665e666baccd047"
+  sha256 "7caf089e1196277255dafb0bc3d18c6a8c77e5042d78a5da9d1b8b6dc9b057a1"
   head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
 
@@ -34,7 +34,7 @@ class Dot < Formula
   depends_on "gnutls" => :optional
 
   on_linux do
-    depends_on xclip => :recommended
+    depends_on "xclip" => :recommended
   end
 
   on_macos do
@@ -43,8 +43,10 @@ class Dot < Formula
 
   def install
     ENV["SLOTH_PATH"] = "#{prefix}"
+    ENV["INSTALL_PREFIX"] = "#{HOMEBREW_PREFIX}"
     bin.install "bin/dot"
     bin.install "bin/$"
+    bin.install "bin/up"
     prefix.install "_raycast"
     prefix.install "dotfiles_template"
     prefix.install "migration"
@@ -59,10 +61,9 @@ class Dot < Formula
       bin.install "bin/open"
     end
 
-    prefix.install Dir["*!bin"]
+    # prefix.install Dir["*!bin"]
 
     cd prefix do
-      #rm_rf "bin/bin"
       rm_rf "scripts/core/version"
       ln_sf "scripts/core", "scripts/self"
     end
@@ -72,7 +73,16 @@ class Dot < Formula
     if build.with? "dotfiles-path"
       ENV["DOTFILES_PATH"] = build.dotfiles_path
       ohai "Installing .Sloth"
-      system "dot", "core", "install"
+      system "make", "install"
+    else
+      ENV["DOTFILES_PATH"] = "#{prefix}/dotfiles_template"
+      ohai "Installing .Sloth with .Dotfiles"
+      system "make", "standalone-install"
+    end
+
+    patch do
+      url "https://raw.githubusercontent.com/gtrabanco/homebrew-tools/HEAD/formula-patches/dot-v#{version}.diff"
+      sha256 "c79f7b1438aa134f5753c2ddfa1053ae0c6b67232e339c189f51dea146c3f66e"
     end
   end
 
@@ -82,28 +92,14 @@ class Dot < Formula
         DOTFILES_PATH="${HOME}/.dotfiles" dot dotfiles create
       After that activate .Sloth loader for your zsh & bash shell with:
         dot core loader --modify
-      If you want to use .Sloth only in zsh or bash, see the help to know how to do it:
-        dot core loader --help
+
+        Probably you should uncomment DOTFILES_PATH variable in ~/.bashrc and ~/.zshenv files.
     EOS
   end
 
-  patch :DATA
-
   test do
-    assert_match "dot " + version, shell_output("#{bin}/dot --version")
+    assert_match ".Sloth v" + version, shell_output("#{bin}/dot --version")
+
+    assert_match " > Package named gtrabanco/tools/dot was installed with brew", shell_output("#{bin}/dot package which gtrabanco/tools/dot")
   end
 end
-__END__
-diff --git a/bin/dot b/bin/dot
-index 31a1c02..1abc212 100755
---- a/bin/dot
-+++ b/bin/dot
-@@ -3,6 +3,8 @@
- 
- set -euo pipefail
- 
-+export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
-+
- # In Linux we can do this with readlink -f but will fail in macOS and BSD OS
- if [[ -z "${SLOTH_PATH:-${DOTLY_PATH:-}}" || ! -d "${SLOTH_PATH:-${DOTLY_PATH:-}}" ]]; then
-   if ! command -vp realpath &> /dev/null; then
