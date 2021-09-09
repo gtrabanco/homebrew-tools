@@ -51,6 +51,8 @@ jobs:
 
       - name: Install .Sloth
         run: |
+          brew tap gtrabanco/tools
+          brew tap denisidoro/tools
           brew install --include-test --formula Formula/dot.rb
           
       - name: Check .Sloth is installed

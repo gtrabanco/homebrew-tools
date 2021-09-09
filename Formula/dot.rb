@@ -18,7 +18,7 @@ class Dot < Formula
   depends_on "rust"
   depends_on "coreutils"
   depends_on "findutils"
-  depends_on "https://raw.githubusercontent.com/denisidoro/homebrew-tools/HEAD/docpars.rb"
+  depends_on "denisidoro/tools/docpars"
   depends_on "make" => :recommended
   depends_on "gnu-sed" => :recommended
   depends_on "gnu-tar" => :recommended
