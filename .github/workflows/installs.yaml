@@ -32,17 +32,17 @@ jobs:
       - name: Set current env
         run: echo "ENV=CI" >> $GITHUB_ENV
 
-      - name: Set no analytics for homebre
+      - name: Set no analytics for Homebrew
         run: echo "HOMEBREW_NO_ANALYTICS=true" >> $GITHUB_ENV
 
-      - name: Install brew linux
+      - name: Install Homebrew on Linux
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install build-essential procps curl file git
 
       - name: Install brew
         run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-      - name: Finish installation on Linux
+      - name: Finish Homebrew installation on Linux
         if: matrix.os == 'ubuntu-latest'
         run: |
           test -x ~/.linuxbrew/bin/brew && eval $(~/.linuxbrew/bin/brew shellenv)
@@ -51,6 +51,8 @@ jobs:
 
       - name: Install .Sloth
         run: |
+          brew tap gtrabanco/tools
+          brew tap denisidoro/tools
           brew install --include-test --formula Formula/dot.rb
           
       - name: Check .Sloth is installed

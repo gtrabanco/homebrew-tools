@@ -1,11 +1,11 @@
 class Dot < Formula
   revision 0
-  version "3.3.0"
+  version "3.2.0"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
   mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "1f3b4b431806cb838a06ef29e5b2f68a70633d2a5a6232cfee90eb16b013e15c"
+  sha256 "bfbd01ca1432a87ec2d4e0a82674969df71a9c5b5307fc3dc35fee046aa2fc5a"
   head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
 
@@ -47,7 +47,6 @@ class Dot < Formula
     bin.install "bin/dot"
     bin.install "bin/$"
     bin.install "bin/up"
-    bin.install "bin/sloth"
     prefix.install "_raycast"
     prefix.install "dotfiles_template"
     prefix.install "migration"
@@ -62,10 +61,14 @@ class Dot < Formula
       bin.install "bin/open"
     end
 
+    # prefix.install Dir["*!bin"]
+
     cd prefix do
       rm_rf "scripts/core/version"
       ln_sf "scripts/core", "scripts/self"
     end
+
+    #bash_completion/"dot" "shell/bash/completions/_dot"
 
     if build.with? "dotfiles-path"
       ENV["DOTFILES_PATH"] = build.dotfiles_path
@@ -79,7 +82,7 @@ class Dot < Formula
 
     patch do
       url "https://raw.githubusercontent.com/gtrabanco/homebrew-tools/HEAD/formula-patches/dot-v#{version}.diff"
-      sha256 "4b3de18871a9de86ad7e169ebd2e938d5fec636b78458ceea1566271087426e0"
+      sha256 "c79f7b1438aa134f5753c2ddfa1053ae0c6b67232e339c189f51dea146c3f66e"
     end
   end
 
