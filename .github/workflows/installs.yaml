@@ -53,7 +53,7 @@ jobs:
         run: |
           brew tap gtrabanco/tools
           brew tap denisidoro/tools
-          brew install --include-test --formula Formula/dot.rb
+          brew install --include-test --formula Formula/sloth.rb
           
       - name: Check .Sloth is installed
         run: |
