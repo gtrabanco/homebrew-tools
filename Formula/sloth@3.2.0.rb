@@ -1,4 +1,4 @@
-class DotAT320 < Formula
+class SlothAT320 < Formula
   revision 0
   version "3.2.0"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
