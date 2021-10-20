@@ -1,11 +1,11 @@
 class Sloth < Formula
   revision 0
-  version "3.3.8"
+  version "3.3.9"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
   mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "27e069754b7229c3b4704524d99a33a70b6de7dc89c2f3fcafde80b7c241857c"
+  sha256 "f4f9596dff729b6c421bd7c634c8c8d74724be1bdf930a53d12c262e08b79e1a"
   head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
 
