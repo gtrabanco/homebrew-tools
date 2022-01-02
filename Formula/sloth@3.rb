@@ -1,11 +1,11 @@
 class Sloth < Formula
   revision 0
-  version "4.1.1"
+  version "3.3.9"
   desc "Lazy bash for lazy people. Have maintainable dotfiles with .Sloth. A Dotly fork."
   homepage "https://github.com/gtrabanco/.Sloth"
   url "https://github.com/gtrabanco/.Sloth.git", :using => :git, tag: "v#{version}"
   mirror "https://api.github.com/repos/gtrabanco/.Sloth/tarball/v#{version}"
-  sha256 "9a55db813e7b84666e4d95c48e37693ac4e6f029cd00895d0de32f34fd93b7b"
+  sha256 "f4f9596dff729b6c421bd7c634c8c8d74724be1bdf930a53d12c262e08b79e1a"
   head "https://github.com/gtrabanco/.Sloth.git", :using => :git, branch: "master"
   license "MIT"
 
@@ -18,7 +18,7 @@ class Sloth < Formula
   depends_on "rust"
   depends_on "coreutils"
   depends_on "findutils"
-  depends_on "dotbot"
+  depends_on "denisidoro/tools/docpars"
   depends_on "make" => :recommended
   depends_on "gnu-sed" => :recommended
   depends_on "gnu-tar" => :recommended
@@ -79,7 +79,7 @@ class Sloth < Formula
 
     patch do
       url "https://raw.githubusercontent.com/gtrabanco/homebrew-tools/HEAD/formula-patches/dot-v#{version}.diff"
-      sha256 "0abc6db4cc2f77ee7e839956bbca753ff67b4c6a4297d514341a438d4228eed2"
+      sha256 "4b3de18871a9de86ad7e169ebd2e938d5fec636b78458ceea1566271087426e0"
     end
   end
 
