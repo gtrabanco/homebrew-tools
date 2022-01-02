@@ -1,0 +1,107 @@
+diff --git a/bin/dot b/bin/dot
+index 7a8a93a..a21cdab 100755
+--- a/bin/dot
++++ b/bin/dot
+@@ -4,8 +4,8 @@
+ set -euo pipefail
+ 
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++export HOMEBREW_SLOTH=true
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
+ # In Linux we can do this with readlink -f but will fail in macOS and BSD OS
+diff --git a/bin/up b/bin/up
+index 376c276..b4cdd48 100755
+--- a/bin/up
++++ b/bin/up
+@@ -2,8 +2,8 @@
+ #shellcheck disable=SC1091
+ 
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++export HOMEBREW_SLOTH=true
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
+ update_all_error() {
+diff --git a/scripts/core/install b/scripts/core/install
+index a631059..86e265b 100755
+--- a/scripts/core/install
++++ b/scripts/core/install
+@@ -4,8 +4,8 @@
+ set -euo pipefail
+ 
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++export HOMEBREW_SLOTH=true
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
+ if [[ -z "${SLOTH_PATH:-}" ]]; then
+diff --git a/scripts/core/loader b/scripts/core/loader
+index b470a94..529b24a 100755
+--- a/scripts/core/loader
++++ b/scripts/core/loader
+@@ -4,8 +4,8 @@
+ set -euo pipefail
+ 
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++export HOMEBREW_SLOTH=true
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
+ [[ -z "${SLOTH_PATH:-${DOTLY_PATH:-}}" ]] && exit 1
+diff --git a/scripts/core/short_pwd b/scripts/core/short_pwd
+index e82d5cc..6e3d0df 100755
+--- a/scripts/core/short_pwd
++++ b/scripts/core/short_pwd
+@@ -3,8 +3,8 @@
+ set -euo pipefail
+ 
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++export HOMEBREW_SLOTH=true
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
+ . "${SLOTH_PATH:-${DOTLY_PATH:-}}/scripts/core/src/_main.sh"
+diff --git a/scripts/symlinks/apply b/scripts/symlinks/apply
+index 95925c2..f466a16 100755
+--- a/scripts/symlinks/apply
++++ b/scripts/symlinks/apply
+@@ -3,9 +3,9 @@
+ set -euo pipefail
+ 
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+-# export DOTFILES_PATH="${DOTFILES_PATH:-${SLOTH_PATH}/dotfiles_template}"
++export HOMEBREW_SLOTH=true
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++export DOTFILES_PATH="${DOTFILES_PATH:-${SLOTH_PATH}/dotfiles_template}"
+ ##### End of Hombrew Installation Patch #####
+ 
+ #shellcheck disable=SC1091
+diff --git a/shell/init-sloth.sh b/shell/init-sloth.sh
+index c92d13b..9cdabf5 100644
+--- a/shell/init-sloth.sh
++++ b/shell/init-sloth.sh
+@@ -24,8 +24,8 @@ function recent_dirs() {
+ }
+ 
+ ##### Start of Homebrew Installation Patch #####
+-# export HOMEBREW_SLOTH=true
+-# export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
++export HOMEBREW_SLOTH=true
++export SLOTH_PATH="HOMEBREW_PREFIX/opt/dot"
+ ##### End of Hombrew Installation Patch #####
+ 
+ # Advise no vars defines
